@@ -1,0 +1,27 @@
+{
+    "name": "parcel-react-starter",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "parcel serve --open src/index.html",
+        "build": "parcel build --public-url ./ src/index.html",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "@rematch/core": "^0.5.3",
+        "lodash.omit": "^4.5.0",
+        "react": "^16.2.0",
+        "react-dom": "^16.2.0",
+        "react-redux": "^5.0.7",
+        "recompose": "^0.26.0",
+        "request": "^2.85.0",
+        "request-promise-native": "^1.0.5"
+    },
+    "devDependencies": {
+        "babel-core": "^6.26.0",
+        "babel-plugin-transform-class-properties": "^6.24.1",
+        "babel-preset-env": "^1.6.1",
+        "babel-preset-react": "^6.24.1",
+        "typescript": "^2.7.2"
+    }
+}

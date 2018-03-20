@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "outDir": "./lib/",
+        "target": "es5",
+        "allowJs": true,
+        "sourceMap": true,
+        "declaration": true,
+        "jsx": "react",
+        "lib": [
+            "es5",
+            "es2015.promise",
+            "es2017",
+            "dom"
+        ],
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        ".git",
+        "node_modules"
+    ]
+}
