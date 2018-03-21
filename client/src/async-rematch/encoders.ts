@@ -1,8 +1,8 @@
-export const query = (collectionName: string, url: string) => {
+export const query = (collectionName: string, url: string): string => {
     return `${collectionName}:${encodeURIComponent(url)}`;
 };
 
-export const dequery = (query: string) => {
+export const dequery = (query: string): any => {
     const [a, b] = query.split(':');
     return {
         collectionName: a,

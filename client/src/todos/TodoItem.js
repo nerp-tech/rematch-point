@@ -5,11 +5,13 @@ import { branch, compose, mapProps, renderComponent } from 'recompose';
 
 import { loader } from '../async-rematch/hocs';
 
-const TodoList = ({ isDeleting, items, handleDelete }) => (
+const TodoList = ({ isDeleting, items, handleDelete, handleUpdate }) => (
     <ul>
         <li key={items[0].uuid}>
             {items[0].text}
             {' '}
+
+            <button onClick={handleUpdate(items[0].uuid)}>Change</button>
             {
                 isDeleting ?
                     <span>Deleting...</span> :
@@ -24,7 +26,7 @@ const Loading = () => (
 );
 
 const Error = ({ error, handleReload }) => (
-    <span>{JSON.parse(error).error} <button onClick={handleReload}>Reload</button></span>
+    <span>{error.error} <button onClick={handleReload}>Reload</button></span>
 );
 
 const NotFound = () => (
@@ -49,13 +51,14 @@ const enhanceNotFound = branch(
 export default compose(
     loader(() => dispatch.todos.getItem, ['4']),
     enhanceLoading(Loading),
-    enhanceNotFound,
     enhanceError(
         connect(undefined, ({ todos: { getItem } }) => ({
             handleReload: () => getItem('4'),
         }))(Error)
     ),
-    connect(undefined, ({ todos: { deleteItem } }) => ({
-        handleDelete: (id) => () => deleteItem(id),
+    enhanceNotFound,
+    connect(undefined, ({ todos: { deleteItem, updateItem } }) => ({
+        handleDelete: (uuid) => () => deleteItem(uuid),
+        handleUpdate: (uuid) => () => updateItem({ uuid, text: 'meeewow!' }),
     }))
 )(TodoList);

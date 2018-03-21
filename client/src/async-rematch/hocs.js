@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { LOADING, DELETING } from './constants';
+import { LOADING, DELETING, UPDATING } from './constants';
 import { getQuery, getItems } from './connectHelpers';
 
 const queryWrapper = (query, Comp) => {
@@ -15,6 +15,7 @@ const queryWrapper = (query, Comp) => {
 
             return {
                 isLoading: q.queryState === LOADING,
+                isUpdating: q.queryState === UPDATING,
                 isDeleting: q.queryState === DELETING,
                 items: getItems(state, query),
                 error: q.error,
@@ -29,11 +30,11 @@ export const loader = (func, args = []) => (Comp) => {
             query: null,
         }
 
-        gen = null
+        action = null
 
         componentDidMount() {
-            this.gen = func().apply(this, args);
-            this.gen.then((query) => {
+            this.action = func().apply(this, args);
+            this.action.then((query) => {
                 this.setState({
                     query,
                 });

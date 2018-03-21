@@ -47,10 +47,32 @@ app.get('/todos/:id', (req, res) => {
     });
 });
 
+app.put('/todos/:id', (req, res) => {
+    const { text } = req.body;
+
+    setTimeout(() => {
+        return res.json({
+            uuid: req.params.id,
+            text,
+        });
+    }, 3000);
+});
+
 app.delete('/todos/:id', (req, res) => {
     setTimeout(() => {
         return res.json({
             message: 'gg',
+        });
+    }, 3000);
+});
+
+app.post('/todos', (req, res) => {
+    const { text } = req.body;
+
+    setTimeout(() => {
+        return res.json({
+            uuid: '12391',
+            text,
         });
     }, 3000);
 });

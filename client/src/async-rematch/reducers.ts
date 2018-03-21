@@ -36,17 +36,17 @@ const updateQuery = (state, { query, queryState, normalized, optimisticQuery }: 
     };
 };
 
-const addItems = (state, { normalized, data }: Items) => {
+const setItems = (state, { normalized, data }: Items) => {
     let s = { ...state };
 
     normalized.forEach((n, i) => {
-        s = addItem(s, { normalized: n, data: data[i] });
+        s = setItem(s, { normalized: n, data: data[i] });
     });
 
     return s;
 };
 
-const addItem = (state, { normalized, data }: Item) => {
+const setItem = (state, { normalized, data }: Item) => {
     return {
         ...state,
         items: {
@@ -57,6 +57,29 @@ const addItem = (state, { normalized, data }: Item) => {
             },
         },
     };
+};
+
+const updateItem = (state, { normalized, data }: Item) => {
+    return {
+        ...state,
+        items: {
+            ...state.items,
+            [normalized]: {
+                ...state.items[normalized],
+                ...data,
+            },
+        },
+    };
+};
+
+const updateItems = (state, { normalized, data }: Items) => {
+    let s = { ...state };
+
+    normalized.forEach((n, i) => {
+        s = updateItem(s, { normalized: n, data: data[i] });
+    });
+
+    return s;
 };
 
 const removeFromItems = (items, normalized) => {
@@ -76,6 +99,7 @@ const removeFromQueries = (queries, normalized) => {
     }, {});
 };
 
+// TODO rename to removeItems and handle an array
 const removeItem = (state, { normalized }: Item) => {
     return {
         ...state,
@@ -85,11 +109,39 @@ const removeItem = (state, { normalized }: Item) => {
     };
 };
 
+const addToQueries = (state, { queries, normalized }) => {
+    const s = {
+        ...state,
+    };
+
+    queries.forEach((q) => {
+        if (s[q]) {
+            s[q] = {
+                ...s[q],
+                normalized: [...s[q].normalized, normalized],
+            }
+        }
+    });
+
+    return s;
+};
+
+// TODO handle an array
+const addItems = (state, { queries, normalized, data }) => {
+    return {
+        ...state,
+        items: setItem(state, { normalized: normalized[0], data: data[0] }).items,
+        queries: addToQueries(state.queries, { queries, normalized: normalized[0] }),
+    };
+};
+
 
 export default {
     error,
     updateQuery,
-    addItem,
     addItems,
+    setItem,
+    setItems,
+    updateItems,
     removeItem,
 };

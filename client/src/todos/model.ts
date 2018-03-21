@@ -1,14 +1,17 @@
 import * as request from 'request-promise-native';
 import reducers from '../async-rematch/reducers';
-import { queryBuilder } from '../async-rematch/actions';
+import { asyncAction, setRequestLibrary } from '../async-rematch/actions';
+import { query } from '../async-rematch/encoders';
 
 type Todo = {
-    id: string,
+    uuid: string,
+    text: string,
     type: string,
 };
 
 const TODOS = 'http://localhost:8999/todos';
-const qb = queryBuilder(request);
+
+setRequestLibrary(request);
 
 export const todos = {
     state: {
@@ -21,64 +24,112 @@ export const todos = {
     },
     effects: {
         getAll() {
-            return qb(this, {
+            return asyncAction(this, {
                 collection: 'todos',
                 key: 'uuid',
                 url: `${TODOS}`,
                 optimisticQuery: (state) => {
-                    return state.items;
+                    return Object.values(state.items);
                 },
                 getResponseData(response) {
-                    return JSON.parse(response).items;
+                    return response.items;
                 }
             });
         },
         getAllByType(type: String) {
-            return qb(this, {
+            return asyncAction(this, {
                 collection: 'todos',
                 key: 'uuid',
                 url: `${TODOS}?type=${type}`,
+                relatedQueries: [
+                    query('todos', TODOS),
+                ],
                 optimisticQuery: (state) => {
                     return Object.values(state.items).filter((item: Todo) => {
                         return item.type === type;
                     });
                 },
                 getResponseData(response) {
-                    return JSON.parse(response).items;
+                    return response.items;
                 },
             });
         },
         getItem(uuid: String) {
-            return qb(this, {
+            return asyncAction(this, {
                 collection: 'todos',
                 key: 'uuid',
                 url: `${TODOS}/${uuid}`,
+                relatedQueries: [
+                    query('todos', TODOS),
+                ],
                 optimisticQuery: (state) => {
                     return Object.values(state.items).filter((item: Todo) => {
                         return item.uuid === uuid;
                     });
                 },
                 getResponseData(response) {
-                    return JSON.parse(response);
+                    return response;
                 },
             });
         },
         deleteItem(uuid: String) {
-            return qb(this, {
+            return asyncAction(this, {
                 collection: 'todos',
                 key: 'uuid',
                 url: `${TODOS}/${uuid}`,
                 method: 'DELETE',
-                optimisticQuery: (state) => {
-                    return Object.values(state.items).filter((item: Todo) => {
-                        return item.uuid !== uuid;
-                    });
-                },
-                getResponseData(response) {
+                getResponseData() {
                     return {
                         uuid,
                     };
                 },
+            });
+        },
+        createItem({ text, type }) {
+            return asyncAction(this, {
+                collection: 'todos',
+                key: 'uuid',
+                url: `${TODOS}`,
+                method: 'POST',
+                body: {
+                    text,
+                },
+                relatedQueries: [
+                    query('todos', `${TODOS}?type=${type}`),
+                ],
+                optimisticQuery: (_, current) => {
+                    return [...current, {
+                        uuid: 'fake-uuid',
+                        text,
+                    }];
+                },
+                getResponseData(response) {
+                    return response;
+                }
+            });
+        },
+        updateItem({ uuid, text }) {
+            return asyncAction(this, {
+                collection: 'todos',
+                key: 'uuid',
+                url: `${TODOS}/${uuid}`,
+                method: 'PUT',
+                body: {
+                    text,
+                },
+                optimisticQuery: (state) => {
+                    return Object.values(state.items).filter((item: Todo) => {
+                        return item.uuid === uuid;
+                    }).map((item: Todo) => {
+                        return {
+                            ...item,
+                            text,
+                        };
+                    });
+                },
+                getResponseData(response) {
+                    return response;
+                }
             });
         },
     },
