@@ -1,0 +1,29 @@
+{
+  "name": "rematch-point-queries",
+  "version": "1.0.0",
+  "description": "Query and normalizer functions for dealing with queries using rematch-point",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "lint": "eslint src/**",
+    "test:once": "NODE_ENV=test mocha --opts ./mocha.opts src/**/*.test.ts",
+    "test": "yarn run test:once --watch",
+    "build": "tsc"
+  },
+  "author": "Ivan Montiel <idmontie@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chai": "^4.1.2",
+    "@types/mocha": "^5.0.0",
+    "babel-cli": "^6.26.0",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "eslint": "4.17.0",
+    "eslint-config-eslint": "^4.0.0",
+    "mocha": "^5.0.4",
+    "ts-node": "^5.0.1",
+    "typescript": "^2.7.2",
+    "typescript-eslint-parser": "^14.0.0"
+  },
+  "dependencies": {}
+}

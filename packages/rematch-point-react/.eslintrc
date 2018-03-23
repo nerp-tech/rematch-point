@@ -1,0 +1,17 @@
+{
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "modules": true
+        }
+    },
+    "extends": [
+        "eslint:recommended"
+    ],
+    "globals": {
+        "describe": false,
+        "it": false
+    }
+}

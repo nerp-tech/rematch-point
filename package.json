@@ -1,0 +1,24 @@
+{
+  "name": "rematch-point",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "lerna run lint",
+    "test": "lerna run test:once",
+    "build": "lerna run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nerp-tech/rematch-point.git"
+  },
+  "author": "Ivan Montiel <idmontie@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nerp-tech/rematch-point/issues"
+  },
+  "homepage": "https://github.com/nerp-tech/rematch-point#readme",
+  "devDependencies": {
+    "lerna": "^2.9.0"
+  }
+}
