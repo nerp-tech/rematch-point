@@ -1,7 +1,6 @@
 import * as request from 'request-promise-native';
-import reducers from '../async-rematch/reducers';
-import { asyncAction, setRequestLibrary } from '../async-rematch/actions';
-import { query } from '../async-rematch/encoders';
+import { reducers, asyncAction, setRequestLibrary } from 'rematch-point';
+import { querify } from 'rematch-point-queries';
 
 type Todo = {
     uuid: string,
@@ -42,7 +41,7 @@ export const todos = {
                 key: 'uuid',
                 url: `${TODOS}?type=${type}`,
                 relatedQueries: [
-                    query('todos', TODOS),
+                    querify('todos', TODOS),
                 ],
                 optimisticQuery: (state) => {
                     return Object.values(state.items).filter((item: Todo) => {
@@ -60,7 +59,7 @@ export const todos = {
                 key: 'uuid',
                 url: `${TODOS}/${uuid}`,
                 relatedQueries: [
-                    query('todos', TODOS),
+                    querify('todos', TODOS),
                 ],
                 optimisticQuery: (state) => {
                     return Object.values(state.items).filter((item: Todo) => {
@@ -95,7 +94,7 @@ export const todos = {
                     text,
                 },
                 relatedQueries: [
-                    query('todos', `${TODOS}?type=${type}`),
+                    querify('todos', `${TODOS}?type=${type}`),
                 ],
                 optimisticQuery: (_, current) => {
                     return [...current, {

@@ -1,0 +1,3 @@
+[ ] Rename to @rematch-point/*
+[ ] Add a clean command that runs before build for each submodule
+[ ] Change to tslint

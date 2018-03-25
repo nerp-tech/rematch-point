@@ -34,7 +34,7 @@ const after = (context: RematchPoint, {
 }: {
     method: HttpMethod,
     queryString: string,
-    normalized: string,
+    normalized: string[],
     data: any,
     relatedQueries?: string[]
 }) => {
@@ -138,7 +138,7 @@ export default (context: RematchPoint, options: AsyncActionOptions): QueryString
             queryString,
             data,
         };
-    }).catch((err) => {
+    }).catch((err: Error) => {
         context.error({
             queryString,
             queryState: ERROR,

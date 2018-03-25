@@ -3,11 +3,13 @@
         "noImplicitAny": true,
         "noUnusedParameters": false,
         "noUnusedLocals": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
         "skipLibCheck": true,
         "moduleResolution": "node",
         "removeComments": true,
         "sourceMap": true,
-        "declaration": true,
+        "allowJs": true,
         "target": "es5",
         "module": "es2015"
     }

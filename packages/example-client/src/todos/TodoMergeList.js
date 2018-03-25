@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { dispatch } from '@rematch/core';
 import { branch, compose, mapProps, renderComponent } from 'recompose';
 
-import { loader } from '../async-rematch/hocs';
+import { loader } from 'rematch-point-react';
 
 const TodoList = ({ items, handleCreate }) => (
     <Fragment>
@@ -34,9 +34,22 @@ const enhanceError = (Error) => branch(
 
 export default compose(
     loader(() => dispatch.todos.getAll),
+    mapProps(props => {
+        return Object.assign({}, props, {
+            allItems: props.items,
+            allLoading: props.isLoading
+        });
+    }),
+    loader(() => dispatch.todos.getAllByType, ['dog']),
+    mapProps(props => {
+        return Object.assign({}, props, {
+            items: [...props.items, ...props.allItems],
+            isLoading: props.isLoading || props.allLoading,
+        });
+    }),
     enhanceLoading(Loading),
     enhanceError(Error),
-    connect(undefined, ({ todos: { createItem } }) => {
+    connect(undefined, ({ todos: { createItem }}) => {
         return {
             handleCreate: () => createItem({ text: 'meeeewow!', type: 'dog' })
         };
