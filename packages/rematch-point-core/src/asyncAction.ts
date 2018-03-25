@@ -1,10 +1,10 @@
-import { querify, normalize } from 'rematch-point-queries';
-import { QueryString } from 'rematch-point-queries/dist/types/QueryString'; 
+import { normalize, querify } from '@rematch-point/queries';
+import { QueryString } from '@rematch-point/queries/dist/types/QueryString';
 import { AsyncActionOptions } from './types/AsyncActionOptions';
 import { HttpMethod } from './types/HttpMethod';
 import { RematchPoint } from './types/RematchPoint';
-import getBeforeQueryState from './getBeforeQueryState';
 import createRequestOptions from './createRequestOptions';
+import getBeforeQueryState from './getBeforeQueryState';
 import { ERROR, LOADED } from './constants';
 
 let request: Function = null;

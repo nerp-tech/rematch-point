@@ -1,9 +1,9 @@
 /**
- * Given a key and an object, this will return the 
+ * Given a key and an object, this will return the
  * value of that key in the object. You can also
  * pass a path as the key using a dot (.) as the delimiter,
  * and this will return the nested value of that path.
- * 
+ *
  * @param String key
  * @param any obj
  * @returns value

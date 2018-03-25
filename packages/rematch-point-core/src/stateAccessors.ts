@@ -1,4 +1,4 @@
-import { parse } from 'rematch-point-queries';
+import { parse } from '@rematch-point/queries';
 import { Query } from './types/Query';
 import { CREATING, UPDATING } from './constants';
 

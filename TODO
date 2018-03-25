@@ -1,3 +1,98 @@
 [ ] Rename to @rematch-point/*
 [ ] Add a clean command that runs before build for each submodule
 [ ] Change to tslint
+
+- [ ] Optimistic pre-effect for PUT - optional
+- [ ] Optimistic pre-effect for POST - optional
+- [ ] Optimistic pre-effect for DELETE - optional
+- [ ] Optimistic pre-effect for GET - optional
+- [ ] Remove optimistic function usage from HoC->connectHelpers
+- [ ] Rollback if optimistic
+
+- [ ] Support relatedQueries for GET requests
+
+- [ ] Nested objects
+
+/chats
+{
+    uuid: 'asdfafasf',
+    name: 'asdf',
+    createdAt: 'asdf',
+
+    messages: [
+        {
+            uuid: '1234',
+        }
+    ],
+}
+
+nestedNormalizer(data) => {
+    return [{
+        collection: 'messages',
+        data: data.messages,
+        key: 'uuid',
+    }, {
+        collection: 'participants',
+        data: data.participants,
+        key: 'uuid',
+    }];
+}
+
+Example:
+
+var a = {
+    chats: {
+        items: {
+            '1': {
+                uuid: '1',
+                name: 'My Chat Room',
+                createdAt: Date,
+
+                messages: {
+                    $type: 'messages',
+                    query: 'messages:interalQuery/chats:url.com/chats/1'
+                },
+
+                participants: {
+
+                }
+            },
+        },
+
+        queries: {
+            'chats:url.com/chats/1': {
+                normalized: ['1'],
+                queryStatus: LOADED,
+            },
+        }
+    },
+
+    messages: {
+        items: {
+            'a': {
+                uuid: 'a',
+                text: 'hi',
+            },
+            'b': {
+                uuid: 'b',
+                text: 'get out'
+            }
+        },
+
+        queries: {
+            'messages:interalQuery/chats:url.com/chats/1': {
+                normalized: ['a', 'b'],
+                queryStatus: LOADED,
+            },
+            'messages:url.com/chats/1/messages?page=2': {
+                normalized: ['b'],
+                queryStatus: LOADED,
+
+
+                relatedQueries: [
+                    'chats:url.com/chats/1',
+                ]
+            },
+        },
+    }
+};
