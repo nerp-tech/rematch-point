@@ -8,15 +8,15 @@
     },
     "license": "MIT",
     "dependencies": {
+        "@rematch-point/core": "../rematch-point-core",
+        "@rematch-point/queries": "../rematch-point-queries",
+        "@rematch-point/react": "../rematch-point-react",
         "@rematch/core": "^0.5.3",
         "lodash.omit": "^4.5.0",
         "react": "^16.2.0",
         "react-dom": "^16.2.0",
         "react-redux": "^5.0.7",
         "recompose": "^0.26.0",
-        "rematch-point": "../rematch-point",
-        "rematch-point-queries": "../rematch-point-queries",
-        "rematch-point-react": "../rematch-point-react",
         "request": "^2.85.0",
         "request-promise-native": "^1.0.5"
     },

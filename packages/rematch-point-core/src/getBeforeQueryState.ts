@@ -1,10 +1,10 @@
-import { HttpMethod } from './types/HttpMethod';
 import {
-    DELETING,
-    UPDATING,
     CREATING,
+    DELETING,
     LOADING,
+    UPDATING,
 } from './constants';
+import { HttpMethod } from './types/HttpMethod';
 
 export default (method: HttpMethod): string => {
     switch (method) {

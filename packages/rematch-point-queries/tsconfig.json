@@ -4,6 +4,7 @@
         "rootDir": "src",
         "outDir": "dist",
         "noLib": true,
+        "declaration": true,
     },
     "files": [
         "node_modules/typescript/lib/lib.es2015.d.ts",

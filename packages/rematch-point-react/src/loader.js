@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { LOADING, DELETING, UPDATING, getQuery, getItems } from 'rematch-point';
+import { LOADING, DELETING, UPDATING, getQuery, getItems } from '@rematch-point/core';
 
 const queryWrapper = (queryString, Comp) => {
     return connect(

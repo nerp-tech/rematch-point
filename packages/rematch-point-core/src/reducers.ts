@@ -1,9 +1,8 @@
-import * as omit from 'lodash.omit';
+import omit = require('lodash.omit');
+import { Item, Items } from './types/Items';
 import { Query } from './types/Query';
-import { Items, Item } from './types/Items';
 
-
-const getErrorMessage = (error) => {
+const getErrorMessage = (error: any) => {
     return error.error;
 };
 
@@ -19,29 +18,31 @@ export const error = (state: any, { queryString, queryState, error }: {
             ...state.queries,
             [queryString]: {
                 ...state.queries[queryString],
-                queryState,
                 error: getErrorMessage(error),
+                queryState,
             },
         },
     };
 };
 
 export const updateQuery = (state: any, { queryString, queryState, normalized, optimisticQuery }: Query) => {
+    const queryNormalized = state.queries[queryString] ? state.queries[queryString].normalized : undefined;
+    const newNormalized = normalized || queryNormalized;
+
     return {
         ...state,
         queries: {
             ...state.queries,
             [queryString]: {
                 ...state.queries[queryString],
-                queryState,
-                normalized: normalized || (state.queries[queryString] ? state.queries[queryString].normalized : undefined),
-                optimisticQuery,
                 error: null,
+                normalized: newNormalized,
+                optimisticQuery,
+                queryState,
             },
         },
     };
 };
-
 
 export const setItems = (state: any, { normalized, data }: Items) => {
     let s = { ...state };
@@ -89,17 +90,17 @@ export const updateItems = (state: any, { normalized, data }: Items) => {
     return s;
 };
 
-const removeFromItems = (items, normalized) => {
+const removeFromItems = (items: any, normalized: string) => {
     return omit(items, normalized);
 };
 
-const removeFromQueries = (queries, normalized) => {
+const removeFromQueries = (queries: any, normalized: string) => {
     return Object.keys(queries).reduce((all: any, key) => {
         const q = queries[key];
 
         all[key] = {
             ...q,
-            normalized: q.normalized ? q.normalized.filter(n => n !== normalized) : undefined,
+            normalized: q.normalized ? q.normalized.filter((n: string) => n !== normalized) : undefined,
         };
 
         return all;
@@ -116,17 +117,20 @@ export const removeItems = (state: any, { normalized }: Items) => {
     };
 };
 
-const addToQueries = (state: any, { queries, normalized }) => {
+const addToQueries = (state: any, { queries, normalized }: {
+    queries: any[],
+    normalized: string,
+}) => {
     const s = {
         ...state,
     };
 
-    queries.forEach((q) => {
+    queries.forEach((q: any) => {
         if (s[q]) {
             s[q] = {
                 ...s[q],
                 normalized: [...s[q].normalized, normalized],
-            }
+            };
         }
     });
 
@@ -134,7 +138,11 @@ const addToQueries = (state: any, { queries, normalized }) => {
 };
 
 // TODO handle an array
-export const addItems = (state: any, { queries, normalized, data }) => {
+export const addItems = (state: any, { queries, normalized, data }: {
+    queries: any[],
+    normalized: string[],
+    data: any,
+}) => {
     return {
         ...state,
         items: setItem(state, { normalized: normalized[0], data: data[0] }).items,

@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "lerna run --parallel start",
     "lint": "lerna run lint",
     "test": "lerna run test:once",
     "build": "lerna run build"

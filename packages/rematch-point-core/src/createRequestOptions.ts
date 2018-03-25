@@ -1,7 +1,9 @@
 import { HttpMethod } from './types/HttpMethod';
 
-export default ({ method, body, json } : {
-    method: HttpMethod, body: any, json: boolean
+export default ({ method, body, json }: {
+    body: any,
+    json: boolean,
+    method: HttpMethod,
 }): any => {
     const options: any = { method, json };
 

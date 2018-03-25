@@ -1,5 +1,5 @@
 import * as request from 'request-promise-native';
-import { reducers, asyncAction, setRequestLibrary } from 'rematch-point';
+import { reducers, asyncAction, setRequestLibrary } from '@rematch-point/core';
 import { querify } from '@rematch-point/queries';
 
 type Todo = {

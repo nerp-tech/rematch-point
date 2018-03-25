@@ -1,90 +1,92 @@
 import { normalize, querify } from '@rematch-point/queries';
 import { QueryString } from '@rematch-point/queries/dist/types/QueryString';
-import { AsyncActionOptions } from './types/AsyncActionOptions';
-import { HttpMethod } from './types/HttpMethod';
-import { RematchPoint } from './types/RematchPoint';
+
+import { ERROR, LOADED } from './constants';
 import createRequestOptions from './createRequestOptions';
 import getBeforeQueryState from './getBeforeQueryState';
-import { ERROR, LOADED } from './constants';
+import { AsyncActionOptions } from './types/AsyncActionOptions';
+import { HttpMethod } from './types/HttpMethod';
+import { OptimisticQuery } from './types/OptimisticQuery';
+import { RematchPoint } from './types/RematchPoint';
+import { RequestLibrary } from './types/RequestLibrary';
 
-let request: Function = null;
+let request: RequestLibrary = null;
 
-export const setRequestLibrary = (r: Function) => {
+export const setRequestLibrary = (r: RequestLibrary) => {
     request = r;
 };
 
 const before = (context: RematchPoint, { queryString, method, optimisticQuery }: {
     queryString: string,
     method: HttpMethod,
-    optimisticQuery?: Function
+    optimisticQuery?: OptimisticQuery,
 }): void => {
     context.updateQuery({
-        queryString,
-        queryState: getBeforeQueryState(method),
         optimisticQuery,
+        queryState: getBeforeQueryState(method),
+        queryString,
     });
 };
 
 const after = (context: RematchPoint, {
-    method,
-    queryString,
-    normalized,
     data,
+    method,
+    normalized,
+    queryString,
     relatedQueries,
 }: {
-    method: HttpMethod,
-    queryString: string,
-    normalized: string[],
     data: any,
-    relatedQueries?: string[]
+    method: HttpMethod,
+    normalized: string[],
+    queryString: string,
+    relatedQueries?: string[],
 }) => {
     switch (method) {
         case 'DELETE': {
             context.removeItems({
-                normalized,
                 data,
+                normalized,
             });
             context.updateQuery({
-                queryString,
                 queryState: LOADED,
+                queryString,
             });
             break;
         }
         case 'POST': {
             context.addItems({
-                normalized,
                 data,
+                normalized,
                 queries: [queryString, ...(relatedQueries || [])],
             });
             context.updateQuery({
-                queryString,
                 queryState: LOADED,
-                // normalized,
+                queryString,
             });
             break;
         }
         case 'PUT': {
             context.updateItems({
-                normalized,
                 data,
+                normalized,
             });
             context.updateQuery({
-                queryString,
-                queryState: LOADED,
                 normalized,
+                queryState: LOADED,
+                queryString,
             });
             break;
         }
         case 'GET':
         default: {
             context.setItems({
-                normalized,
                 data,
+                normalized,
             });
             context.updateQuery({
-                queryString,
-                queryState: LOADED,
                 normalized,
+                queryState: LOADED,
+                queryString,
             });
         }
     }
@@ -92,15 +94,15 @@ const after = (context: RematchPoint, {
 
 export default (context: RematchPoint, options: AsyncActionOptions): QueryString => {
     const {
-        collection,
-        url,
-        method = HttpMethod.Get,
-        key = 'id',
-        json = true,
         body,
+        collection,
+        getResponseData,
+        json = true,
+        key = 'id',
+        method = HttpMethod.Get,
         optimisticQuery,
         relatedQueries,
-        getResponseData,
+        url,
     } = options;
 
     // XXX check that context has an updateQuery function
@@ -108,15 +110,15 @@ export default (context: RematchPoint, options: AsyncActionOptions): QueryString
     const queryString = querify(collection, url);
 
     before(context, {
-        queryString,
         method,
         optimisticQuery,
+        queryString,
     });
 
     const requestOptions = createRequestOptions({
-        method,
         body,
         json,
+        method,
         // TODO allow custom options
     });
 
@@ -135,14 +137,14 @@ export default (context: RematchPoint, options: AsyncActionOptions): QueryString
         after(context, { method, queryString, normalized, data, relatedQueries });
 
         return {
-            queryString,
             data,
+            queryString,
         };
     }).catch((err: Error) => {
         context.error({
-            queryString,
-            queryState: ERROR,
             error: err,
+            queryState: ERROR,
+            queryString,
         });
 
         return {

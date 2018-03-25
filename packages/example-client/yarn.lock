@@ -2,6 +2,17 @@
 # yarn lockfile v1
 
 
+"@rematch-point/core@../rematch-point-core":
+  version "1.0.0"
+  dependencies:
+    "@rematch-point/queries" "../rematch-point-queries"
+
+"@rematch-point/queries@../rematch-point-queries":
+  version "1.0.0"
+
+"@rematch-point/react@../rematch-point-react":
+  version "1.0.0"
+
 "@rematch/core@^0.5.3":
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/@rematch/core/-/core-0.5.3.tgz#83a2dbe7aeec404fb58a6308ad0efe8433319fba"
@@ -1096,17 +1107,6 @@ regjsparser@^0.1.4:
   resolved "https://registry.yarnpkg.com/regjsparser/-/regjsparser-0.1.5.tgz#7ee8f84dc6fa792d3fd0ae228d24bd949ead205c"
   dependencies:
     jsesc "~0.5.0"
-
-rematch-point-queries@../rematch-point-queries:
-  version "1.0.0"
-
-rematch-point-react@../rematch-point-react:
-  version "1.0.0"
-
-rematch-point@../rematch-point:
-  version "1.0.0"
-  dependencies:
-    rematch-point-queries "../rematch-point-queries"
 
 repeating@^2.0.0:
   version "2.0.1"

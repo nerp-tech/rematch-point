@@ -1,6 +1,6 @@
 import { parse } from '@rematch-point/queries';
-import { Query } from './types/Query';
 import { CREATING, UPDATING } from './constants';
+import { Query } from './types/Query';
 
 export const getQuery = (state: any, queryString: string): Query => {
     const { collectionName } = parse(queryString);

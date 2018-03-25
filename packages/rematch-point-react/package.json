@@ -6,7 +6,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "lint": "eslint src/**",
-    "test:once": "NODE_ENV=test mocha --opts ./mocha.opts src/**/*.test.ts",
+    "test:once": "NODE_ENV=test mocha --opts ./mocha.opts src/**/*.test.js",
     "test": "yarn run test:once --watch",
     "clean": "rm -rf ./dist",
     "build": "yarn clean; babel src --out-dir dist"
@@ -14,6 +14,7 @@
   "author": "Ivan Montiel <idmontie@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@rematch-point/core": "../rematch-point-core",
     "@types/react": "^16.0.41",
     "@types/react-redux": "^5.0.15",
     "babel-cli": "^6.26.0",
@@ -26,12 +27,11 @@
     "eslint-plugin-react": "^7.7.0",
     "mocha": "^5.0.5",
     "react": "^16.2.0",
-    "react-redux": "^5.0.7",
-    "rematch-point": "../rematch-point"
+    "react-redux": "^5.0.7"
   },
   "peerDependencies": {
+    "@rematch-point/core": "../rematch-point-core",
     "react": "^16.2.0",
-    "react-redux": "^5.0.7",
-    "rematch-point": "../rematch-point"
+    "react-redux": "^5.0.7"
   }
 }

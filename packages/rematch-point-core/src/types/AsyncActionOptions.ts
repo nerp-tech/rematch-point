@@ -1,4 +1,5 @@
 import { HttpMethod } from './HttpMethod';
+import { OptimisticQuery } from './OptimisticQuery';
 
 export interface AsyncActionOptions {
     collection: string,
@@ -8,6 +9,6 @@ export interface AsyncActionOptions {
     json?: boolean,
     method?: HttpMethod,
     relatedQueries?: string[],
-    optimisticQuery?: Function,
+    optimisticQuery?: OptimisticQuery,
     getResponseData: Function,
 };
