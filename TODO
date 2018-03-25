@@ -11,6 +11,8 @@
 
 - [ ] Support relatedQueries for GET requests
 
+- [ ] Why is the build for the example client so big?
+
 - [ ] Nested objects
 
 /chats
